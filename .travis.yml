@@ -1,0 +1,12 @@
+language: cpp
+
+compiler:
+  - clang
+
+dist: xenial
+addons:
+  apt:
+    packages:
+      - valgrind
+
+script: make test
