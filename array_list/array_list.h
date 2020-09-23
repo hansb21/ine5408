@@ -12,35 +12,62 @@ template<typename T>
   //! Classe Vetor
 class ArrayList {
  public:
-    //! Gerador
+    /*
+     * @brief Constructor.
+     */ 
     ArrayList() {
         max_size_ = DEFAULT_MAX;
         contents = new T[max_size_];
         size_ = 0;
 }
-    //! Gerador com paramêtro
+    /*
+     * @brief Constructor with parameters.
+     * 
+     * @params Max_size:Max size of the list
+     */
     explicit ArrayList(std::size_t max_size) {
         max_size_ = max_size;
         contents = new T[max_size_];
         size_ = 0;
 }
-    //! Destruidor
+    /*
+     * @brief Destructor. 
+     */
     ~ArrayList() {
         delete[] contents;
 }
-    //! Zera a lista
+
+    /*
+     * @brief Clears the list, seting the size to 0.
+     */
     void clear() {
         size_ = 0;
 }
-    //! Insere na ultima
+
+    /*
+     * @brief Inserts data at the back of the list.
+     *
+     * @params data: data to be inserted.
+     */
     void push_back(const T& data) {
         insert(data, size());
 }
-    //! Insere na primeira
+
+    /*
+     * @brief Inserts data at the first position of the list.
+     *
+     * @params data: data to be inserted.
+     */
     void push_front(const T& data) {
         insert(data, 0);
 }
-    //! Insere
+
+    /*
+     * @brief Insert function based on the index.
+     *
+     * @param data: data to be inserted.
+     * @param index: index where the data will be inserted.
+     */
     void insert(const T& data, std::size_t index) {
         size_t aux;
         if (full()) {
@@ -57,7 +84,12 @@ class ArrayList {
         size_++;
         contents[index] = data;
 }
-    //! Insere em ordem
+
+    /*
+     * @brief Inserts data until the data is smaller than next one on the list.
+     *
+     * @param data: data to be inserted.
+     */
     void insert_sorted(const T& data) {
         size_t aux;
         if (full()) {
@@ -69,11 +101,19 @@ class ArrayList {
         }
         insert(data, aux);
 }
-    //! Tira
+
+    /*
+     * @brief Remove the element from the index
+     * 
+     * @param index: index of the data to be removed.
+     * @returns value: value removed.
+     */
     T pop(std::size_t index) {
         size_t aux;
         T value;
-        if (index >= size_ || index < 0) {
+        
+	/* Check for errors */       
+	if (index >= size_ || index < 0) {
             throw std::out_of_range("Posição invalida");
 }
         if (empty()) {
@@ -87,13 +127,29 @@ class ArrayList {
             aux++;
         }
         return value;
-}   //! Tira último
+}  
+
+    /*
+     * @brief Removes the list's last element.
+     *
+     * @returns the last element of the list.
+     */
     T pop_back() {
     return pop(size_ - 1);
-}   //! Tira primeiro
+}   
+    /*
+     * @brief Removes the list's first element.
+     * 
+     * @returns the list's first element.
+     */	
     T pop_front() {
         return pop(0);
-}   //! remove
+
+}   
+    
+    /*
+     * @brief Removes the data searching for the index.
+     */ 
     void remove(const T& data) {
         if (empty()) {
             throw std::out_of_range("Lista vazia");
@@ -103,13 +159,33 @@ class ArrayList {
                 pop(i);
             }
         }
-}   //! cheio
+}   
+    /*
+     * @brief Verify if the list is full.
+     *
+     * @return True: if the size of the list equals the max_size.
+     * @return False: if the size of the list differs from the max_size.
+     */
     bool full() const {
         return size_ == max_size_;
-}   //! vazio
+}
+
+   /*
+    * @brief Verify if the list is empty.
+    *
+    * @return True: if the size of the list equals 0.
+    * @return False: if the size of the list differs from 0.
+    */
     bool empty() const {
         return size_ == 0;
-}   //! contem
+}   
+    /*
+     * @brief Verify if the list contains the data.
+     * 
+     * @params data: Data to be verified.
+     * @returns True
+     * @returns False
+     */
     bool contains(const T& data) const {
         bool value = false;
         for (int i = 0; i < size_; i++) {
@@ -118,7 +194,13 @@ class ArrayList {
             }
         }
     return value;
-}   //! acha
+}   
+    /*
+     * @brief Finds the index of the given data.
+     *
+     * @params data: Data to be found the index.
+     * @returns value: The index of the given data, if found. Else, returns the size of the list.
+     */
     std::size_t find(const T& data) const {
         if (empty()) {
             throw std::out_of_range("Lista vázia");
@@ -130,13 +212,25 @@ class ArrayList {
             }
         }
     return value;
-}   //! tamanho
+
+}   
+    /*
+     * @brief Size getter.
+     *
+     * @returns size_: Size of the list.
+     */
     std::size_t size() const {
         return size_;
-}   //! maior tamanho
+}
+    /*
+     * @brief Max size getter.
+     *
+     * @returns max_size: Max possible size of the list.
+     */
     std::size_t max_size() const {
         return max_size_;
-}   //! Posição
+}   
+    //! Posição
     T& at(std::size_t index) {
         if (empty()) {
             throw std::out_of_range("Lista vazia");
@@ -145,10 +239,12 @@ class ArrayList {
             throw std::out_of_range("Posição errada");
         }
         return contents[index];
-}   //! []
+}   
+    //! []
     T& operator[](std::size_t index) {
         return contents[index];
-}   //! Posição
+}   
+    //! Posição
     const T& at(std::size_t index) const {
         if (empty()) {
             throw std::out_of_range("Lista vazia");
@@ -157,7 +253,8 @@ class ArrayList {
             throw std::out_of_range("Posição errada");
         }
         return contents[index];
-}   //! {}
+}   
+    //! {}
     const T& operator[](std::size_t index) const {
         return contents[index];
     }
